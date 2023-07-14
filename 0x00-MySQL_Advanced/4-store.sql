@@ -1,13 +1,13 @@
 -- SQL script that creates a trigger that decreases
 -- the quantity of an item after adding a new order
 DELIMITER $$
-CREATE TRIGGER `holberton`.`decrease_qty_of_an_item`
+CREATE TRIGGER `decrease_qty_of_an_item`
 AFTER INSERT
-ON `holberton`.`orders`
+ON `orders`
 FOR EACH ROW
 BEGIN
-	UPDATE `holberton`.`items` SET `items`.`quantity` = `items`.`quantity` -	NEW.NUMBER
-	WHERE `items`.`name` = NEW.ITEM_NAME;
+	UPDATE `items` SET `quantity` = `quantity` - NEW.number
+	WHERE `name` = NEW.item_name;
 END;
 $$
 
