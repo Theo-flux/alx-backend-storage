@@ -13,6 +13,6 @@ BEGIN
 
 	UPDATE `users`
 	SET average_score = avg_score
-	WHERE `user_id` = user_id;
+	WHERE `id` = user_id;
 END$$
 DELIMITER ;
