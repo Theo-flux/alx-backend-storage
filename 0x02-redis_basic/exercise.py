@@ -44,19 +44,24 @@ def replay(method: Callable):
     db = redis.Redis()
     fun_name = method.__qualname__
 
+    count = 0
+    inputs = ''
+    outputs = ''
+
+
     if db.get(f"{fun_name}"):
         count = int(db.get(f"{fun_name}").decode('utf-8'))
         inputs = db.lrange(f"{fun_name}:inputs", 0, -1)
         outputs = db.lrange(f"{fun_name}:outputs", 0, -1)
 
-        zipped_res = list(zip((inputs), outputs))
+    zipped_res = list(zip((inputs), outputs))
 
-        print(f"{fun_name} was called {count} times:")
-        for i in range(len(zipped_res)):
-            left = zipped_res[i][0].decode('utf-8')
-            right = zipped_res[i][1].decode('utf-8')
+    print(f"{fun_name} was called {count} times:")
+    for i in range(len(zipped_res)):
+        left = zipped_res[i][0].decode('utf-8')
+        right = zipped_res[i][1].decode('utf-8')
 
-            print(f"{fun_name}(*{left}) -> {right}")
+        print(f"{fun_name}(*{left}) -> {right}")
 
 
 class Cache():
@@ -109,7 +114,7 @@ if __name__ == '__main__':
         key = cache.store(value)
         assert cache.get(key, fn=fn) == value
 
-    cache = Cache()
+
     cache.store("foo")
     cache.store("bar")
     cache.store(42)
