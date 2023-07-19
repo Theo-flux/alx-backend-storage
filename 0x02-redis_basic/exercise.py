@@ -40,6 +40,25 @@ def call_history(method: Callable) -> Callable:
     return call
 
 
+def replay(method: Callable):
+    db = redis.Redis()
+    fun_name = method.__qualname__
+
+    if db.get(f"{fun_name}"):
+        count = db.get(f"{fun_name}").decode('utf-8')
+        inputs = db.lrange(f"{fun_name}:inputs", 0, -1)
+        outputs = db.lrange(f"{fun_name}:outputs", 0, -1)
+
+        zipped_res = list(zip((inputs), outputs))
+
+        print(f"{fun_name} was called {count} times:")
+        for i in range(len(zipped_res)):
+            left = zipped_res[i][0].decode('utf-8')
+            right = zipped_res[i][1].decode('utf-8')
+
+            print(f"{fun_name}(*{left}) -> {right}")
+
+
 class Cache():
     """
     cache class
@@ -89,3 +108,9 @@ if __name__ == '__main__':
     for value, fn in TEST_CASES.items():
         key = cache.store(value)
         assert cache.get(key, fn=fn) == value
+
+    cache = Cache()
+    cache.store("foo")
+    cache.store("bar")
+    cache.store(42)
+    replay(cache.store)
