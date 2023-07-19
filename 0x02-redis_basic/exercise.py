@@ -45,7 +45,7 @@ def replay(method: Callable):
     fun_name = method.__qualname__
 
     if db.get(f"{fun_name}"):
-        count = db.get(f"{fun_name}").decode('utf-8')
+        count = int(db.get(f"{fun_name}").decode('utf-8'))
         inputs = db.lrange(f"{fun_name}:inputs", 0, -1)
         outputs = db.lrange(f"{fun_name}:outputs", 0, -1)
 
