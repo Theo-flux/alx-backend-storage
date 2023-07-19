@@ -23,15 +23,15 @@ def count_calls(method: Callable) -> Callable:
 
     return counter
 
+
 def call_history(method: Callable) -> Callable:
 
     @wraps(method)
     def call(self, *args):
         qual_name = method.__qualname__
 
-
         self._redis.rpush(f"{qual_name}:inputs",  str(args))
-    
+
         res = method(self, *args)
         self._redis.rpush(f"{qual_name}:outputs", res)
 
@@ -60,7 +60,11 @@ class Cache():
 
         return key
 
-    def get(self, key: str, fn: Optional[Callable] = None) -> Union[Awaitable, Any]:
+    def get(
+        self,
+        key: str,
+        fn: Optional[Callable] = None
+    ) -> Union[Awaitable, Any]:
         val = self._redis.get(key)
         if fn:
             return fn(val)
@@ -71,7 +75,7 @@ class Cache():
 
     def get_int(self, key: str) -> Union[Awaitable, int]:
         return self.get(key, fn=lambda d: int(d) if d else None)
-        
+
 
 if __name__ == '__main__':
     cache = Cache()
@@ -85,6 +89,3 @@ if __name__ == '__main__':
     for value, fn in TEST_CASES.items():
         key = cache.store(value)
         assert cache.get(key, fn=fn) == value
-
-    
-        
