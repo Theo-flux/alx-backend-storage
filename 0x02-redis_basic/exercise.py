@@ -11,16 +11,15 @@ from functools import wraps
 def count_calls(method: Callable) -> Callable:
 
     @wraps(method)
-    def counter(*args, **kwds):
-        db = args[0]
+    def counter(self, *args, **kwds):
         qual_name = method.__qualname__
 
-        if db._redis.get(qual_name):
-            db._redis.incr(qual_name, 1)
+        if self._redis.get(qual_name):
+            self._redis.incr(qual_name, 1)
         else:
-            db._redis.set(qual_name, 1)
+            self._redis.set(qual_name, 1)
     
-        return method(*args, **kwds)
+        return method(self, *args, **kwds)
     return counter
 
 
