@@ -31,7 +31,8 @@ def count_url(method: Callable):
         res = method(arg)
 
         db.incr(count_key)
-        db.setex(cached_url, 10, res)
+        db.set(cached_url, res)
+        db.expire(cached_url, 10)
         return res
 
     return counter
