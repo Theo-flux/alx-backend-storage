@@ -31,7 +31,7 @@ def count_url(method: Callable):
         res = method(arg)
 
         db.incr(count_key)
-        db.setex(cached_url, 10, html)
+        db.setex(cached_url, 10, res)
         return res
 
     return counter
