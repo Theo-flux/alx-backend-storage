@@ -11,6 +11,14 @@ db = redis.Redis()
 
 
 def count_url(method: Callable):
+    """_summary_
+
+    Args:
+        method (Callable): _description_
+
+    Returns:
+        _type_: _description_
+    """
     @wraps(method)
     def counter(arg):
         cached_url = f"cached:{arg}"
@@ -19,8 +27,8 @@ def count_url(method: Callable):
         if data:
             return data.decode("utf-8")
 
-        count_key = f"count:{url}"
-        res = method(url)
+        count_key = f"count:{arg}"
+        res = method(arg)
 
         db.incr(count_key)
         db.setex(cached_url, 10, html)
