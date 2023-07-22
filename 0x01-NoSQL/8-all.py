@@ -1,12 +1,14 @@
 #!/usr/env python3
 """
-list all function
+list all function module
 """
+import pymongo
 from typing import List
 
 
 def list_all(mongo_collection) -> List:
-    """_summary_
+    """
+    lists all documents in a collection
 
     Args:
         mongo_collection (_type_): _description_
