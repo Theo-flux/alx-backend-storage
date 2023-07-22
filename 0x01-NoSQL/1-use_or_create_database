@@ -1,0 +1,3 @@
+// create and use the database my_db
+db.my_db
+use my_db
