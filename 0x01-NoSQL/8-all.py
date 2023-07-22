@@ -16,4 +16,9 @@ def list_all(mongo_collection) -> List:
     Returns:
         List: _description_
     """
-    return list(mongo_collection.find())
+    schools = list(mongo_collection.find())
+
+    if len(schools) == 0:
+        return []
+    
+    return schools
