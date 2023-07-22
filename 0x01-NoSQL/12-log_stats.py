@@ -28,9 +28,10 @@ def methods_count(mongo_collection) -> None:
         methods[key] = len(list(mongo_collection.find({"method": key})))
 
 
-methods_count(ngix_collection)
-print(doc_len)
-print("Methods:")
-for k, v in methods.items():
-    print(f"\tmethod {k}: {v}")
-print(f"{status_check_len} status check")
+if __name__ == "__main__":
+    methods_count(ngix_collection)
+    print(doc_len)
+    print("Methods:")
+    for k, v in methods.items():
+        print(f"\tmethod {k}: {v}")
+    print(f"{status_check_len} status check")
