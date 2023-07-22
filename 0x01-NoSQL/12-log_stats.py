@@ -23,14 +23,13 @@ def methods_count(mongo_collection) -> None:
     Args:
         mongo_collection (_type_): _description_
     """
-
     for key in methods.keys():
         methods[key] = len(list(mongo_collection.find({"method": key})))
 
 
 if __name__ == "__main__":
     methods_count(ngix_collection)
-    print(doc_len)
+    print(f"{doc_len} logs")
     print("Methods:")
     for k, v in methods.items():
         print(f"\tmethod {k}: {v}")
