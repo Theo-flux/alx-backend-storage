@@ -6,6 +6,14 @@ from typing import List
 
 
 def top_students(mongo_collection) -> List:
+    """_summary_
+
+    Args:
+        mongo_collection (_type_): _description_
+
+    Returns:
+        List: _description_
+    """
     res = list(mongo_collection.aggregate([
         {
             "$addFields": {
