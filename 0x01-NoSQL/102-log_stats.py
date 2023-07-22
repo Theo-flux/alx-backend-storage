@@ -28,6 +28,15 @@ def methods_count(mongo_collection) -> None:
 
 
 def get_top_ips(mongo_collection, limit: int = 10):
+    """_summary_
+
+    Args:
+        mongo_collection (_type_): _description_
+        limit (int, optional): _description_. Defaults to 10.
+
+    Returns:
+        _type_: _description_
+    """
     grouped_ips = list(mongo_collection.aggregate([
         {
             "$group": {
